@@ -134,9 +134,9 @@
         flat: yes
       with_items: "{{ war_files.stdout_lines }}"
 
-hosts: tomcat
-become: yes
-tasks:
+- hosts: tomcat
+  become: yes
+  tasks:
   - name: Ensure jdk package presents
     apt:
      name: default-jdk
