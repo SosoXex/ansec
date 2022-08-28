@@ -144,14 +144,14 @@
       with_items:
         - default-jdk
         - tomcat9
-  - name: Ensure tomcat started
-    service:
-     name: tomcat9
-     state: started
+    - name: Ensure tomcat started
+      service:
+        name: tomcat9
+        state: started
 
-  - name: Copy package file
-    copy:
-     src: build/
-     dest: /var/lib/tomcat9/webapps/
-     owner: tomcat
-     group: tomcat
+    - name: Copy package file
+      copy:
+        src: build/
+        dest: /var/lib/tomcat9/webapps/
+        owner: tomcat
+        group: tomcat
