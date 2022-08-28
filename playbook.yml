@@ -99,18 +99,6 @@
 - hosts: builder
   become: yes
   tasks:
-    - name: Ensure jdk package presents
-      apt:
-        name: default-jdk
-        state: present
-    - name: Ensure git package presents
-      apt:
-        name: git
-        state: present
-    - name: Ensure maven package presents
-      apt:
-        name: maven
-        state: present
     - name: Copy build params
       copy:
         src: 4maven.txt
