@@ -43,8 +43,7 @@
         instance_tags:
           Name: builder
         user_data: |
-          #!/bin/sh
-          apt update && apt install python maven default-jdk git -y
+          apt update && apt install -y python maven default-jdk git
     register: ec2
 
   - name: Add new instance to host group
@@ -78,8 +77,7 @@
         instance_tags:
           Name: tomcat
         user_data: |
-          #!/bin/sh
-          apt update && apt install python tomcat9 git -y
+          apt update && apt install -y python tomcat9 git
     register: ec2
 
   - name: Add new instance to host group
