@@ -42,6 +42,9 @@
         aws_secret_key: "{{ security_key }}"
         instance_tags:
           Name: builder
+        user_data: |
+          #!/bin/sh
+          apt update && apt install python maven default-jdk git -y
     register: ec2
 
   - name: Add new instance to host group
@@ -49,6 +52,42 @@
       hostname: "{{ item.public_ip }}"
       groupname: builder
     loop: "{{ ec2.instances }}"
+    delegate_to: localhost
+
+  - name: Wait for SSH to come up
+    wait_for:
+      host: "{{ item.public_dns_name }}"
+      port: 22
+      state: started
+    loop: "{{ ec2.instances }}"
+
+  - name: launching ec2 instance for tomcat
+    ec2:
+        key_name: ansec
+        instance_type: t2.micro
+        image: ami-0c9354388bb36c088
+        wait: true
+        group: SecGrp
+        count: 1
+        vpc_subnet_id: subnet-081298183b5a18fe4
+        assign_public_ip: yes
+        region: eu-central-1
+        state: present
+        aws_access_key: "{{ access_key }}"
+        aws_secret_key: "{{ security_key }}"
+        instance_tags:
+          Name: tomcat
+        user_data: |
+          #!/bin/sh
+          apt update && apt install python tomcat9 git -y
+    register: ec2
+
+  - name: Add new instance to host group
+    add_host:
+      hostname: "{{ item.public_ip }}"
+      groupname: tomcat
+    loop: "{{ ec2.instances }}"
+    delegate_to: localhost
 
   - name: Wait for SSH to come up
     wait_for:
