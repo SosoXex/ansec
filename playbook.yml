@@ -119,17 +119,13 @@
     - name: build code
       shell:
         chdir: /tmp/build/
-        cmd: PDIR=$(sed -n '2p' 4maven.txt);mvn -f $PDIR/pom.xml package;ls -la $PDIR/target/;cp $PDIR/target/*.war $HOME
-    - name: Set list of files
-      shell:
-        cmd: ls -la;find -maxdepth 1 -name '*.war' -type f
-      register: war_files
+        cmd: PDIR=$(sed -n '2p' 4maven.txt);mvn -f $PDIR/pom.xml package
     - name: Fetch war
       fetch:
-        src: "{{ item }}"
+        src: /tmp/build/war-web-project/target/wwp-1.0.0.war
         dest: ./build/
         flat: yes
-      with_items: "{{ war_files.stdout_lines }}"
+
 
 - hosts: tomcat
   become: yes
