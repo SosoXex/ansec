@@ -103,11 +103,11 @@
       copy:
         src: 4maven.txt
         dest: /tmp/build/
-    - name: Add environments and pull code
+    - name: Add environments
       shell:
         chdir: /tmp/build/
-        cmd: rm -rf $HOME/app.war;PLINK=$(sed -n '1p' 4maven.txt);PDIR=$(sed -n '2p' 4maven.txt);rm -rf $PDIR;git clone $PLINK
-   - name: Add pull code
+        cmd: rm -rf $HOME/app.war;PLINK=$(sed -n '1p' 4maven.txt);PDIR=$(sed -n '2p' 4maven.txt);rm -rf $PDIR
+    - name: Add pull code
       shell:
         chdir: /tmp/build/
         cmd: git clone $PLINK
