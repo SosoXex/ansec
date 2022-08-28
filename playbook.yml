@@ -119,10 +119,10 @@
     - name: build code
       shell:
         chdir: /tmp/build/
-        cmd: PDIR=$(sed -n '2p' 4maven.txt);mvn -f $PDIR/pom.xml package;ls -la $PDIR/target/;cp $PDIR/target/*.war $HOME
+        cmd: PDIR=$(sed -n '2p' 4maven.txt);mvn -f $PDIR/pom.xml package;cp $PDIR/target/*.war $HOME
     - name: Set list of files
       shell:
-        cmd: ls -la;find $HOME -maxdepth 1 -name '*.war' -type f
+        cmd: find $HOME -maxdepth 1 -name '*.war' -type f
       register: war_files
     - name: Fetch war
       fetch:
