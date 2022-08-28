@@ -42,8 +42,6 @@
         aws_secret_key: "{{ security_key }}"
         instance_tags:
           Name: builder
-        user_data: |
-          apt update && apt install -y python maven default-jdk git
     register: ec2
 
   - name: Add new instance to host group
@@ -76,8 +74,6 @@
         aws_secret_key: "{{ security_key }}"
         instance_tags:
           Name: tomcat
-        user_data: |
-          apt update && apt install -y python tomcat9 git
     register: ec2
 
   - name: Add new instance to host group
@@ -97,6 +93,14 @@
 - hosts: builder
   become: yes
   tasks:
+    - name: Install apps
+      apt:
+        name: "{{item}}"
+        state: installed
+      with_items:
+        - default-jdk
+        - git
+        - maven
     - name: Copy build params
       copy:
         src: 4maven.txt
