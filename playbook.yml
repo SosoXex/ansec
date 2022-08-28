@@ -1,0 +1,9 @@
+- hosts: localhost
+  gather_facts: no
+  vars_files:
+  - cred.yml
+  tasks:
+  - name:
+    pip:
+      name: boto3
+      state: present
