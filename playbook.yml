@@ -13,7 +13,7 @@
       description: Security Group for Web Server allowing port for http and ssh
       region: eu-central-1a
       aws_access_key: "{{ access_key }}"
-      aws_secret_key: "{{ secret_key }}"
+      aws_secret_key: "{{ security_key }}"
       rules:
         - proto: tcp
           from_port: 22
@@ -39,7 +39,7 @@
         region: eu-central-1a
         state: present
         aws_access_key: "{{ access_key }}"
-        aws_secret_key: "{{ secret_key }}"
+        aws_secret_key: "{{ security_key }}"
         instance_tags:
           Name: builder
     register: ec2
