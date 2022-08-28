@@ -114,7 +114,7 @@
     - name: build code
       shell:
         chdir: /tmp/build/
-        cmd: PLINK=$(sed -n '1p' 4maven.txt);PDIR=$(sed -n '2p' 4maven.txt);mvn -f $PDIR/pom.xml package;\cp $PDIR/target/*.war $HOME
+        cmd: PLINK=$(sed -n '1p' 4maven.txt);PDIR=$(sed -n '2p' 4maven.txt);mvn -f $PDIR/pom.xml package;cp $PDIR/target/*.war $HOME
     - name: Set list of files
       shell:
         cmd: find -maxdepth 1 -name '*.war' -type f
