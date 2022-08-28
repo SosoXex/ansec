@@ -95,3 +95,64 @@
       port: 22
       state: started
     loop: "{{ ec2.instances }}"
+
+- hosts: builder
+  become: yes
+  tasks:
+    - name: Ensure jdk package presents
+      apt:
+        name: default-jdk
+        state: present
+    - name: Ensure git package presents
+      apt:
+        name: git
+        state: present
+    - name: Ensure maven package presents
+      apt:
+        name: maven
+        state: present
+    - name: Copy build params
+      copy:
+        src: 4maven.txt
+        dest: /tmp/build/
+    - name: Add environments and pull code
+      shell:
+        chdir: /tmp/build/
+        cmd: rm -rf $HOME/app.war;PLINK=$(sed -n '1p' 4maven.txt);PDIR=$(sed -n '2p' 4maven.txt);rm -rf $PDIR;git clone $PLINK
+    - name: build code
+      shell:
+        chdir: /tmp/build/
+        cmd: PLINK=$(sed -n '1p' 4maven.txt);PDIR=$(sed -n '2p' 4maven.txt);mvn -f $PDIR/pom.xml package;\cp $PDIR/target/*.war $HOME/app.war
+    - name: Set list of files
+      shell:
+        cmd: find -maxdepth 1 -name '*.war' -type f
+      register: war_files
+    - name: Fetch war
+      fetch:
+        src: "{{ item }}"
+        dest: ./build/
+        flat: yes
+      with_items: "{{ war_files.stdout_lines }}"
+
+hosts: tomcat
+become: yes
+tasks:
+  - name: Ensure jdk package presents
+    apt:
+     name: default-jdk
+     state: present
+  - name: Ensure tomcat package presents
+    apt:
+     name: tomcat9
+     state: present
+  - name: Ensure tomcat started
+    service:
+     name: tomcat9
+     state: started
+
+  - name: Copy package file
+    copy:
+     src: build/
+     dest: /var/lib/tomcat9/webapps/
+     owner: tomcat
+     group: tomcat
