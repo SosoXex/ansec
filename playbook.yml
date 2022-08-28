@@ -1,7 +1,7 @@
 - hosts: localhost
   gather_facts: no
   vars_files:
-  - cred.yml
+  - aws.yml
   tasks:
   - name:
     pip:
