@@ -110,7 +110,7 @@
     - name: Add pull code
       shell:
         chdir: /tmp/build/
-        cmd: git clone $PLINK
+        cmd: PLINK=$(sed -n '1p' 4maven.txt);git clone $PLINK
     - name: build code
       shell:
         chdir: /tmp/build/
