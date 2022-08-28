@@ -107,6 +107,10 @@
       shell:
         chdir: /tmp/build/
         cmd: rm -rf $HOME/app.war;PLINK=$(sed -n '1p' 4maven.txt);PDIR=$(sed -n '2p' 4maven.txt);rm -rf $PDIR;git clone $PLINK
+   - name: Add pull code
+      shell:
+        chdir: /tmp/build/
+        cmd: git clone $PLINK
     - name: build code
       shell:
         chdir: /tmp/build/
