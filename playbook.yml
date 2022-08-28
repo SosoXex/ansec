@@ -11,7 +11,7 @@
     ec2_group:
       name: SecGrp
       description: Security Group for Web Server allowing port for http and ssh
-      region: eu-central-1a
+      region: eu-central-1
       aws_access_key: "{{ access_key }}"
       aws_secret_key: "{{ security_key }}"
       rules:
@@ -36,7 +36,7 @@
         count: 1
         vpc_subnet_id: subnet-081298183b5a18fe4
         assign_public_ip: yes
-        region: eu-central-1a
+        region: eu-central-1
         state: present
         aws_access_key: "{{ access_key }}"
         aws_secret_key: "{{ security_key }}"
