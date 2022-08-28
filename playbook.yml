@@ -27,7 +27,7 @@
         - proto: all
           cidr_ip: 0.0.0.0/0
   - name: launching ec2 instance for builder
-      ec2:
+    ec2:
         key_name: ansec
         instance_type: t2.micro
         image: ami-0c9354388bb36c088
@@ -42,7 +42,7 @@
         aws_secret_key: "{{ secret_key }}"
         instance_tags:
           Name: builder
-      register: ec2
+    register: ec2
 
   - name: Add new instance to host group
     add_host:
